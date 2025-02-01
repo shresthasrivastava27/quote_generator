@@ -5,6 +5,9 @@ import { RandomQuotePage } from "./pages/RandomQuotePage";
 import { Favorites } from "./pages/Favorites";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import { useFavorites } from "./context/FavoritesContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export const App: React.FC = () => {
   return (
@@ -17,6 +20,7 @@ export const App: React.FC = () => {
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </FavoritesProvider>
   );
 };
