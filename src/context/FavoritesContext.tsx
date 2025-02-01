@@ -3,6 +3,7 @@ import { Quote } from "../types/types";
 
 interface FavoritesContextType {
   favorites: Quote[];
+  favoritesCount: number;
   addFavorite: (quote: Quote) => void;
   removeFavorite: (id: number) => void;
 }
@@ -11,17 +12,22 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 
 export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [favorites, setFavorites] = useState<Quote[]>(() => {
-    // Load favorites from localStorage on initial render
     const savedFavorites = localStorage.getItem("favorites");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
 
-  // Save favorites to localStorage whenever it changes
+  const favoritesCount = favorites.length;
+
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
   const addFavorite = (quote: Quote) => {
+    const isAlreadyAdded = favorites.some((fav) => fav.id === quote.id);
+    if (isAlreadyAdded) {
+      alert(`"${quote.quote}" has already been added to favorites!`); 
+      return; 
+    }
     setFavorites((prev) => [...prev, quote]);
   };
 
@@ -30,7 +36,7 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   return (
-    <FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite }}>
+    <FavoritesContext.Provider value={{ favorites, favoritesCount, addFavorite, removeFavorite }}>
       {children}
     </FavoritesContext.Provider>
   );
