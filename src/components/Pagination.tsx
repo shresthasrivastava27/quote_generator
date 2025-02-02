@@ -8,10 +8,9 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-  const maxButtons = 5; // Maximum number of page buttons to display
+  const maxButtons = 5; 
   const halfMax = Math.floor(maxButtons / 2);
 
-  // Calculate the range of page buttons to display
   let startPage = Math.max(1, currentPage - halfMax);
   let endPage = Math.min(totalPages, currentPage + halfMax);
 
